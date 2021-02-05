@@ -5,7 +5,7 @@ var textLength = null
 
 exports.main = (req,res) => {
         
-        let text = "ashish apple"  //use text as input field
+        let text = req.body.text  //use text as input field
         if(text.length == 0)
         res.status(400).json({
                 "message" : "input fields empty"
