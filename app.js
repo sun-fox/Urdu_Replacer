@@ -5,11 +5,9 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
 
-// const translate = require('./translate/translate_controller')
+const translate = require('./translate/translate_controller')
 
-app.get('/',(req,res)=>{
-    res.send("hi")
-})
+app.get('/',translate.main)
 
 app.listen(PORT,()=>{
    console.log( `listening to port ${PORT}`
