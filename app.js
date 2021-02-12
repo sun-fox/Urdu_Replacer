@@ -68,12 +68,6 @@ app.post('/convert', function(req,res) {
  
 })
 
-app.post('/revert',function(req,res){
-    var text
-    text = req.body.word
-    console.log(text)
-    res.render('index',{text_old:text,text_new:""})
-})
  
 // setting server
 app.listen(PORT, () => {
