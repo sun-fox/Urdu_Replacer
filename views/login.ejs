@@ -36,12 +36,12 @@
     localStorage.removeItem('token')
     const myForm = document.getElementById('myForm')
     myForm.addEventListener('submit',(e)=>{
-     let username =  document.querySelector('#exampleInputEmail1').value
-     let password =  document.querySelector('#exampleInputPassword1').value
+
+      let username =  document.querySelector('#exampleInputEmail1').value
+      let password =  document.querySelector('#exampleInputPassword1').value
       e.preventDefault()
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-
       var urlencoded = new URLSearchParams();
       urlencoded.append("username", username);
       urlencoded.append("password", password);
@@ -54,19 +54,20 @@
       };
 
       fetch("/user/login", requestOptions)
-        .then(response => response.text())
+        .then(response => response.json())
         .then(result => {
-          // saveToken(JSON.parse(result).token)
-          if(Object.values(JSON.parse(result))[1] == true)
-           window.location.replace('/user_controller')
-          else{
-            alert(JSON.parse(result).message)
-          }
-        })
+              console.log(result)
+              if(result['message'] != undefined)
+                alert(result['message'])
+              else{
+                console.log(result['token'])
+                localStorage.setItem('token',result['token'])
+                window.location.replace('/user_controller')
+              }
+           }
+        )
         .catch(error => console.log('error', error)); 
   })
-  function saveToken(token){
-   localStorage.setItem('token',token)
-  }
+
 </script>
 </html>

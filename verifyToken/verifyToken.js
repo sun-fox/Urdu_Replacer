@@ -12,7 +12,7 @@ verifyToken = (req,res,next) => {
         if (!token) 
         return res.status(403).send({ auth: false, message: 'No token provided.' })
 
-        jwt.verify(token, 'aaa', (err, result)=>{
+        jwt.verify(token, process.env.SECRET_KEY , (err, result)=>{
             if(err)
              res.status(404).send({
                  message : "failed to authenticate"

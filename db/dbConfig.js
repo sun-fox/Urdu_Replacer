@@ -1,18 +1,25 @@
+require('dotenv').config()
 const mysql = require('mysql');
+const util = require("util")
 
-const db = mysql.createConnection({
-    host : '',
-    user : '',
-    password : '',
-    database: ''
-})
+const db = mysql.createPool({
+    host : process.env.DB_HOST,
+    user : process.env.DB_USER,
+    password : process.env.DB_PASS,
+    database : process.env.DB_BASE,
+    multipleStatements : true
+ })
 
 //connect
-db.connect((err) => {
-    if(err) {
-        throw err;
+db.getConnection((err, connection) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Connected to Database");
     }
-    console.log('Mysql connected');
-})
-
+    if (connection) connection.release();
+    return
+  })
+  
+db.query = util.promisify(db.query);
 module.exports = db
