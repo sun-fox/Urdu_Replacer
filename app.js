@@ -1,13 +1,17 @@
-var express = require('express');
-var bodyParser = require('body-parser')
-var app = express();
+const express = require('express')
+const bodyParser = require('body-parser')
+
+const app = express();
 const db = require('./db/dbConfig')
-var cors = require('cors')
+const cors = require('cors')
+
+app.set('view engine', 'ejs')
+
 app.use(cors())
-app.set('view engine', 'ejs');
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
+
 const PORT = process.env.PORT || 4000
 
 app.get('/',function(req,res){
@@ -15,15 +19,14 @@ app.get('/',function(req,res){
 })
 
 app.post('/convert', function(req,res) {
-    
-    var text;
-    var text_split;
+    let text;
+    let text_split;
     text = req.body.word;
     // text = "अफसर अफसरों दर्पण"
     text_split = text.split(" "); //splits the text into array
-    var text_length  
+    console.log(text_split)
+    let text_length  
     text_length = Object.keys(text_split).length; // length of array
-
     db.query("SELECT * FROM urdutohindi", function (err,result)
     {
         if(err)
@@ -45,7 +48,6 @@ app.post('/convert', function(req,res) {
                         urdu : result[i].Urdu,
                         status : 1
                     })
-                   
                     check = 1
                     break
                 }
@@ -64,7 +66,6 @@ app.post('/convert', function(req,res) {
         console.log(newstr)
          res.render('index',{text_new:newstr})
     })
- 
 })
 
 app.use('/user_controller',require('./routes/dbRoute'))

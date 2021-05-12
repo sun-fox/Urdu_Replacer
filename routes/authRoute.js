@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const db = require('../db/dbConfig')
 const util = require('util');
 
@@ -22,14 +22,17 @@ router.post('/login',(req,res)=>{
         {
           bcrypt.compare(password, result[0].password).then(function(result) {
             if(result === true)
-            jwt.sign({username: username,password:password},'aaa', function(err, token) {
+            jwt.sign({username: username,password:password}, process.env.SECRET_KEY , function(err, token) {
                 if(err) 
                 console.log(err)
                 else
+               {
                 res.status(200).send({
                     token:token,
                     auth : true
                 })
+                // res.redirect('/user_controller') 
+               }
               })
             else
             res.status(404).send({
