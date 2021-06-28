@@ -1,6 +1,3 @@
-# Innoreva-Backend
-This repo is for the backend codes.
-##  npm install 
-    to install node modules
-##  npm start
-    to start npm server
+This is a Urdu-Hindi text converter:
+
+Link: http://hureplacer.herokuapp.com/
